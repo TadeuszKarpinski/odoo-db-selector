@@ -1,0 +1,80 @@
+{
+	"name": "odoo-db-selector",
+	"displayName": "Odoo Database Selector",
+	"description": "Select target DB for odoo framework. Created by Tadeusz Karpiski tadeusz.karpinski@gmail.com",
+	"version": "2.13.73",
+	"publisher": "atingo-tkarpinski",
+	"icon": "images/icon.png",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/TadeuszKarpinski/odoo-db-selector"
+	},
+	"bugs": {
+		"url": "https://github.com/TadeuszKarpinski/odoo-db-selector/issues"
+	},
+	"engines": {
+		"vscode": "^1.63.1"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": [
+			{
+				"id": "configurationOdooExtension",
+				"title": "Odoo Extension Configuration",
+				"properties": {
+					"conf.view.odoo.dbName": {
+						"type": "string",
+						"default": "All Databases",
+						"description": "Odoo DB Name",
+						"scope": "resource"
+					},
+					"conf.view.odoo.confFile": {
+						"type": "string",
+						"description": "Odoo Config File Path",
+						"default": "",
+						"scope": "resource"
+					}
+				}
+			}
+		],
+		"commands": [
+			{
+				"category": "Odoo Configuration",
+				"command": "config.commands.selectOdooDatabase",
+				"title": "Select Odoo Database"
+			},
+			{
+				"category": "Odoo Configuration",
+				"command": "config.commands.selectOdooConfigFile",
+				"title": "Select Odoo Config File"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^12.12.0",
+		"@types/vscode": "^1.63.1",
+		"@typescript-eslint/eslint-plugin": "^4.16.0",
+		"@typescript-eslint/parser": "^4.16.0",
+		"eslint": "^7.21.0",
+		"typescript": "^4.2.2",
+		"vscode-dts": "^0.3.1"
+	},
+	"dependencies": {
+		"pg": "^8.7.1",
+		"vscode-variables": "^0.1.3"
+	}
+}
