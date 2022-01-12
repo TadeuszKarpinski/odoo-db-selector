@@ -1,0 +1,3 @@
+npm install - install all dependencies
+
+vsce package - create a new package (remember to change version before upload)

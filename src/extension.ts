@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 import * as vscode from 'vscode';
 
 const pg = require('pg');
-const vscodeVariables = require('vscode-variables');
 
 
 let odooDatabaseSelectorStatusBarItem: vscode.StatusBarItem;
@@ -35,29 +34,38 @@ export function activate(context: vscode.ExtensionContext) {
 		};
 		vscode.window.showOpenDialog(options).then(fileUri => {
 			if (fileUri && fileUri[0]) {
-				configuration.update('conf.view.odoo.confFile', fileUri[0].fsPath, vscode.ConfigurationTarget.Workspace);
-				setTimeout(function() {
-					vscode.commands.executeCommand('config.commands.selectOdooDatabase');
-				}, 3000);
+				configuration.update('conf.view.odoo.confFile', fileUri[0].fsPath).then(function() {
+					setTimeout(function() {
+						vscode.commands.executeCommand('config.commands.selectOdooDatabase');
+					}, 3000);
+				});
 			}
 		});
 	});
 
 	vscode.commands.registerCommand('config.commands.selectOdooDatabase', async () => {
 		const configuration = vscode.workspace.getConfiguration();
-		const odoo_conf_file_path = vscodeVariables(configuration.get('conf.view.odoo.confFile'));
-
+		const odoo_conf_file_path_config: string = configuration.get('conf.view.odoo.confFile') || "";
+		if (!odoo_conf_file_path_config) {
+			await configuration.update('conf.view.odoo.confFile', "/odoo/odoo.conf");
+			setTimeout(function() {
+				vscode.window.showInformationMessage('Select odoo configuration file');
+				vscode.commands.executeCommand('config.commands.selectOdooConfigFile');
+			}, 3000);
+			return;
+		}
 		let odoo_conf_file;
-		const db_names = [];
-		const conf_uri = vscode.Uri.file(odoo_conf_file_path);
+		const db_names = ["All Databases"];
+		const conf_uri = vscode.Uri.file(odoo_conf_file_path_config);
 
 		// Read odoo configuration file
-		// await vscode.workspace.fs.writeFile(vscode.Uri.file('C:/Users/tkarpinski003/.vscode/extensions/ms-python.python-2021.12.1559732655/pythonFiles/visualstudio_py_testlauncher.py'), new TextEncoder().encode("asd"));
 		try {
 			odoo_conf_file = await vscode.workspace.fs.readFile(conf_uri);
 		} catch(error) {
-			vscode.window.showInformationMessage('Select odoo configuration file');
-			vscode.commands.executeCommand('config.commands.selectOdooConfigFile');
+			setTimeout(function() {
+				vscode.window.showInformationMessage('Select odoo configuration file');
+				vscode.commands.executeCommand('config.commands.selectOdooConfigFile');
+			}, 3000);
 			return;
 		}
 
@@ -75,13 +83,15 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			}
 		} catch(error) {
-			vscode.window.showErrorMessage("Can't connect to postgres. Are psql credentials in odoo config ok?");
-			vscode.commands.executeCommand('config.commands.selectOdooConfigFile');
+			setTimeout(function() {
+				vscode.window.showErrorMessage("Can't connect to postgres. Are psql credentials in odoo config ok?");
+				vscode.commands.executeCommand('config.commands.selectOdooConfigFile');
+			}, 3000);
 			return;
 		}
 
 		// Show database selection
-		let value = await vscode.window.showQuickPick(db_names, { placeHolder: 'Select the view to show when opening a window.' });
+		let value = await vscode.window.showQuickPick(db_names, { placeHolder: 'Select target database for odoo' });
 		if (vscode.workspace.workspaceFolders) {
 				await configuration.update('conf.view.odoo.dbName', value, vscode.ConfigurationTarget.Workspace);
 		} else {
