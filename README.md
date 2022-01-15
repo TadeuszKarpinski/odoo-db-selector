@@ -1,6 +1,12 @@
+![Screenshot](https://i.imgur.com/k9iT26B.png)
+
 # Odoo Database Selector
 
-This is an extension for odoo framework. It allows user to select target database from vscode statusbar. This module requires user to select path to configuration file. Connects to postgres with credentials from this file and list all available databases with template0, template1, posgres excluded. After selection module replaces target databases in the config file: keys db_name and dbfilter. After this operation user can launch odoo from standard launch.json file without specifying target database.
+Odoo Database Selector
+This is an extension for  Odoo's framework. It allows the user to select target databases in the vscode statusbar. 
+1. The User choses the required configuation file.
+2. The module, using the file credentials, queries Postgresql Server and lists all available databases (excluding: template0, template1, postgres). 
+3. The module replaces the keys (db_name, dbfilter) in the configuration file with the selected target databases. After this operation, the user can launch Odoo from standard launch.json file without specifying any target database.
 
 Database selector position
 
