@@ -70,7 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		// Parse odoo configuration file to dict
-		let odoo_conf_text = new Buffer(odoo_conf_file).toString("utf-8");
+		let odoo_conf_text = Buffer.from(odoo_conf_file).toString("utf-8");
 		const odoo_conf_dict = odoo_conf_to_dict(odoo_conf_text);
 
 		// Try to connect to postgres and get databases list
@@ -92,6 +92,12 @@ export function activate(context: vscode.ExtensionContext) {
 
 		// Show database selection
 		let value = await vscode.window.showQuickPick(db_names, { placeHolder: 'Select target database for odoo' });
+
+		// if user doesn't finish selection, then value is undefined
+		if (value === undefined) {
+			value = configuration.get('conf.view.odoo.dbName') || "All Databases";
+		}
+
 		if (vscode.workspace.workspaceFolders) {
 				await configuration.update('conf.view.odoo.dbName', value, vscode.ConfigurationTarget.Workspace);
 		} else {

@@ -2,7 +2,7 @@
 	"name": "odoo-db-selector",
 	"displayName": "Odoo Database Selector",
 	"description": "Select target DB for odoo framework. Created by Tadeusz Karpiński tadeusz.karpinski@gmail.com",
-	"version": "2.13.75",
+	"version": "2.13.76",
 	"publisher": "atingo-tkarpinski",
 	"icon": "images/icon.png",
 	"private": true,
