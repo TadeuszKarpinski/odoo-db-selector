@@ -1,3 +1,5 @@
 npm install - install all dependencies
 
 vsce package - create a new package (remember to change version before upload)
+
+npx vsce@1.53.2 package
