@@ -99,7 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		if (vscode.workspace.workspaceFolders) {
-				await configuration.update('conf.view.odoo.dbName', value, vscode.ConfigurationTarget.Workspace);
+			await configuration.update('conf.view.odoo.dbName', value, vscode.ConfigurationTarget.Workspace);
 		} else {
 			await configuration.update('conf.view.odoo.dbName', value, vscode.ConfigurationTarget.Global);
 		}
