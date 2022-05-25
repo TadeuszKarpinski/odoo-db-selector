@@ -1,5 +1,7 @@
 npm install - install all dependencies
 
+npm install -g vsce - to install vsce package (do it outside of the project, so vsce wont be added as a dependency)
+
 vsce package - create a new package (remember to change version before upload)
 
 npx vsce@1.53.2 package
