@@ -1,4 +1,4 @@
-![Screenshot](https://i.imgur.com/k9iT26B.png)
+![Screenshot](https://i.imgur.com/o5Fhu7m.png)
 
 # Odoo Database Selector
 
