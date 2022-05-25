@@ -5,3 +5,5 @@ npm install -g vsce - to install vsce package (do it outside of the project, so 
 vsce package - create a new package (remember to change version before upload)
 
 npx vsce@1.53.2 package
+
+https://marketplace.visualstudio.com/manage/publishers/atingo-tkarpinski - publish package
